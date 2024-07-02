@@ -5,5 +5,5 @@ Hi! I'm a front-end developer specializing in the MERN stack. I have strong skil
 
 
 <div style="text-align: center;">
-  <a href="https://git.io/streak-stats"><img src="https://streak-stats.demolab.com?user=shakurShirajul&theme=transparent&hide_border=true" alt="GitHub Streak" /></a>
+  <a><img src="https://streak-stats.demolab.com?user=shakurShirajul&theme=transparent&hide_border=true" alt="GitHub Streak" /></a>
 </div>
