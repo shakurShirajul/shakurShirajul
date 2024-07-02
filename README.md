@@ -5,7 +5,7 @@ Hi! I'm a front-end developer specializing in the MERN stack. I have strong skil
 
 
 
-
+[![GitHub Streak](https://streak-stats.demolab.com/?user=shakurShirajul)](https://git.io/streak-stats)
 
 
 
