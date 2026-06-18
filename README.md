@@ -12,6 +12,7 @@ Hi! I'm a full stack developer specializing in the MERN stack and PHP Laravel. I
 </div>
 
 # Language & Tools That I Used
+<!--
 <p align="center">
 <img src="https://github.com/mir-hussain/mir-hussain/blob/main/images/icons/c.png"/>
 <img src="https://github.com/mir-hussain/mir-hussain/blob/main/images/icons/cpp.png"/>
@@ -25,5 +26,4 @@ Hi! I'm a full stack developer specializing in the MERN stack and PHP Laravel. I
 <img src="https://github.com/mir-hussain/mir-hussain/blob/main/images/icons/express.png"/>
 <img src="https://github.com/mir-hussain/mir-hussain/blob/main/images/icons/mongo.png"/>
 </p>
-
-
+-->
