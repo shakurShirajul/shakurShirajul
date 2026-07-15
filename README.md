@@ -32,7 +32,7 @@
 
 I'm a full-stack developer from Bangladesh who builds dynamic web applications with the **MERN stack** and **PHP Laravel**. These days I write a lot of TypeScript and PHP, building WordPress plugins at **[@Bit-Apps-Pro](https://github.com/Bit-Apps-Pro)**.
 
-I like work that starts messy and ends obvious — taking a tangled problem, finding the clean shape underneath it, and building that properly.
+I like work that starts messy and ends obvious taking a tangled problem, finding the clean shape underneath it, and building that properly.
 
 ```js
 const shakur = {
