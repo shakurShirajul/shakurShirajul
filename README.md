@@ -38,10 +38,6 @@
 
 <img src="images/now.svg" alt="Building WordPress plugins with TypeScript and PHP at Bit-Apps-Pro. Going deeper on PHP Laravel and backend architecture. Working with Postgres, Prisma and Coolify on the infrastructure side. Happy to talk about JavaScript, React, Laravel or anything MERN. Reach me at shiirajullisllam@gmail.com. Off the clock, you'll probably find me gaming." width="100%" />
 
-<p align="center">
-  <a href="https://github.com/Bit-Apps-Pro">@Bit-Apps-Pro</a> &nbsp;·&nbsp; <a href="mailto:shiirajullisllam@gmail.com">shiirajullisllam@gmail.com</a>
-</p>
-
 <br />
 
 <img src="images/headers/stack.svg" alt="Tech stack" width="100%" />
