@@ -1,13 +1,13 @@
 <img src="images/banner.png" alt="Shirajul Islam Shakur — Full Stack Developer" width="100%" />
 
-<h1 align="center">Shirajul Islam Shakur</h1>
+<!-- <h1 align="center">Shirajul Islam Shakur</h1> -->
 
-<p align="center">
+<!-- <p align="center"> -->
   <!-- The banner already states the name, title and stack, so this line adds current focus instead of repeating them. -->
-  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=22&pause=1000&color=2AA889&center=true&vCenter=true&width=600&lines=Building+things+for+the+web;WordPress+Plugins+%40+Bit-Apps-Pro;React+%C2%B7+Laravel+%C2%B7+TypeScript;Always+shipping%2C+always+learning" alt="Building things for the web · WordPress Plugins @ Bit-Apps-Pro · React · Laravel · TypeScript · Always shipping, always learning" />
-</p>
+  <!-- <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=22&pause=1000&color=2AA889&center=true&vCenter=true&width=600&lines=Building+things+for+the+web;WordPress+Plugins+%40+Bit-Apps-Pro;React+%C2%B7+Laravel+%C2%B7+TypeScript;Always+shipping%2C+always+learning" alt="Building things for the web · WordPress Plugins @ Bit-Apps-Pro · React · Laravel · TypeScript · Always shipping, always learning" /> -->
+<!-- </p> -->
 
-<p align="center">
+<!-- <p align="center">
   <a href="https://shakurshirajul.com">
     <img src="https://img.shields.io/badge/Portfolio-0C1014?style=for-the-badge&logo=firefox-browser&logoColor=2AA889&labelColor=0C1014" alt="Portfolio" />
   </a>
@@ -24,7 +24,7 @@
 
 <p align="center">
   <img src="https://komarev.com/ghpvc/?username=shakurShirajul&label=Profile%20views&color=2AA889&style=flat-square" alt="Profile views" />
-</p>
+</p> -->
 
 <br />
 
