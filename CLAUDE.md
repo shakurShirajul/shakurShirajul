@@ -13,11 +13,11 @@ The one piece of code: `scripts/contribution-city.mjs` (plain Node, no dependenc
 ## Constraints from GitHub's renderer
 
 - GitHub strips `<style>`, `style=` attributes, classes and scripts. Layout uses legacy HTML attributes only: `align`, `width`, `height`, `hspace`, `valign`, plus `<table>`, `<div align="center">` and `<br />`.
-- Everything dynamic (stats cards, streak, activity graph, badges, footer wave) is an external image service configured through URL query parameters. Change their look by editing those parameters, not by adding local assets.
+- Everything dynamic (stats cards, streak, activity graph, badges) is an external image service configured through URL query parameters. Change their look by editing those parameters, not by adding local assets.
 
 ## Visual system
 
-Keep new elements consistent with the existing palette, which is repeated across the shields.io badges, streak-stats, activity-graph and capsule-render URLs:
+Keep new elements consistent with the existing palette, which is repeated across the shields.io badges, streak-stats and activity-graph URLs:
 
 - Background `0C1014`, accent `2AA889`, secondary text `99D1CE`, stroke `1C2226`
 - skillicons.dev uses `theme=dark`

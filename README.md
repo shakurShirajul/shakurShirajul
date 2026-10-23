@@ -156,4 +156,3 @@ const shakur = {
   <i>Thanks for stopping by — let's build something.</i>
 </p>
 
-<img src="https://capsule-render.vercel.app/api?type=waving&color=0:0C1014,100:2AA889&height=100&section=footer" alt="" width="100%" />
