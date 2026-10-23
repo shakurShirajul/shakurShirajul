@@ -2,8 +2,10 @@
 // Each day is one building: the more contributions, the taller and brighter it is.
 //
 // Usage: node scripts/contribution-city.mjs <github-user> <output-dir>
-// Writes city-teal.svg, city-green.svg and city-blue.svg into <output-dir>.
-// No token needed: data comes from the public contributions calendar page.
+// Also draws a matching stats card (total contributions, current and longest streak).
+// Writes city-<theme>.svg and stats-<theme>.svg for the teal, green and blue themes into <output-dir>.
+// No token needed: data comes from the public contributions calendar pages. If GITHUB_TOKEN
+// is set it is only used for the one API call that looks up the join date.
 
 import { mkdir, writeFile } from "node:fs/promises";
 import { join } from "node:path";
@@ -39,6 +41,7 @@ const H = 620;
 const OX = 48 + 7 * TW;
 const OY = 190;
 
+const font = `font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace"`;
 const r1 = (n) => Math.round(n * 10) / 10;
 const P = (i, j, z = 0) => [OX + (i - j) * TW, OY + (i + j) * TH - z];
 const pt = ([x, y]) => `${r1(x)},${r1(y)}`;
@@ -59,13 +62,7 @@ function mix(a, b, t) {
   return "#" + ca.map((v, k) => Math.round(v + (cb[k] - v) * t).toString(16).padStart(2, "0")).join("");
 }
 
-async function fetchDays(login) {
-  const res = await fetch(`https://github.com/users/${login}/contributions`, {
-    headers: { "User-Agent": "contribution-city" },
-  });
-  if (!res.ok) throw new Error(`GitHub returned ${res.status} for ${login}`);
-  const html = await res.text();
-
+function parseCalendar(html) {
   const counts = new Map();
   for (const m of html.matchAll(/<tool-tip[^>]*for="(contribution-day-component-\d+-\d+)"[^>]*>([^<]*)<\/tool-tip>/g)) {
     const n = m[2].match(/^(\d[\d,]*) contribution/);
@@ -84,6 +81,33 @@ async function fetchDays(login) {
   }
   if (days.length < 300) throw new Error(`Only parsed ${days.length} days; GitHub's page layout may have changed`);
   return days;
+}
+
+async function fetchCalendar(login, query = "") {
+  const res = await fetch(`https://github.com/users/${login}/contributions${query}`, {
+    headers: { "User-Agent": "contribution-city" },
+  });
+  if (!res.ok) throw new Error(`GitHub returned ${res.status} for ${login}`);
+  return parseCalendar(await res.text());
+}
+
+async function joinDate(login) {
+  const headers = { "User-Agent": "contribution-city" };
+  if (process.env.GITHUB_TOKEN) headers.Authorization = `Bearer ${process.env.GITHUB_TOKEN}`;
+  const res = await fetch(`https://api.github.com/users/${login}`, { headers });
+  if (!res.ok) throw new Error(`GitHub API returned ${res.status} for ${login}`);
+  return (await res.json()).created_at.slice(0, 10);
+}
+
+// Every day from the join date to today, oldest first.
+async function fetchHistory(login, today) {
+  const joined = await joinDate(login);
+  const years = [];
+  for (let y = Number(joined.slice(0, 4)); y <= Number(today.slice(0, 4)); y++) years.push(y);
+  const calendars = await Promise.all(years.map((y) => fetchCalendar(login, `?from=${y}-01-01&to=${y}-12-31`)));
+  const byDate = new Map();
+  for (const d of calendars.flat()) if (d.date >= joined && d.date <= today) byDate.set(d.date, d);
+  return { joined, days: [...byDate.values()].sort((a, b) => (a.date < b.date ? -1 : 1)) };
 }
 
 function building(day, theme, maxCount) {
@@ -127,7 +151,7 @@ function building(day, theme, maxCount) {
   return out.join("");
 }
 
-function render(days, theme) {
+function renderCity(days, theme) {
   const total = days.reduce((s, d) => s + d.count, 0);
   const maxCount = Math.max(1, ...days.map((d) => d.count));
   const weeks = Math.max(...days.map((d) => d.week)) + 1;
@@ -157,8 +181,6 @@ function render(days, theme) {
     .map((c, k) => `<rect x="${76 + k * 14}" y="${H - 34}" width="10" height="10" rx="2" fill="${c}"/>`)
     .join("");
 
-  const font = `font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace"`;
-
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img" aria-label="Contribution city: ${total} contributions in the last 12 months">
 <style>
 .t{animation:t 4s ease-in-out infinite}
@@ -183,10 +205,120 @@ ${legend}
 `;
 }
 
-const days = await fetchDays(user);
+function streaks(days) {
+  // A streak still counts if today has no contributions yet; it only breaks once a whole day is missed.
+  let end = days.length - 1;
+  if (days[end].count === 0) end--;
+  let start = end + 1;
+  while (start > 0 && days[start - 1].count > 0) start--;
+  const current = { length: end - start + 1, from: days[start]?.date, to: days[end]?.date };
+
+  let longest = { length: 0 };
+  let runStart = 0;
+  days.forEach((d, k) => {
+    if (d.count === 0) return void (runStart = k + 1);
+    if (k - runStart + 1 > longest.length) longest = { length: k - runStart + 1, from: days[runStart].date, to: d.date };
+  });
+  return { current, longest };
+}
+
+const MONTHS = "Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec".split(" ");
+function fmtDate(iso, withYear) {
+  const [y, m, d] = iso.split("-").map(Number);
+  return `${MONTHS[m - 1]} ${d}${withYear ? `, ${y}` : ""}`;
+}
+function fmtRange(from, to, today) {
+  if (!from) return "start one today";
+  const sameYear = from.slice(0, 4) === to.slice(0, 4);
+  const end = to === today ? "today" : fmtDate(to, !sameYear || to.slice(0, 4) !== today.slice(0, 4));
+  return from === to ? fmtDate(from, true) : `${fmtDate(from, !sameYear)} – ${end}`;
+}
+
+// Stats card that sits under the city: same width, palette and type.
+function renderStats(history, theme, today) {
+  const { joined, days } = history;
+  const { current, longest } = streaks(days);
+  const total = days.reduce((s, d) => s + d.count, 0);
+  const accent = theme.roofs[4];
+  const SH = 176;
+  const col = W / 3;
+  const x0 = (k) => k * col + 32;
+
+  // Column 1: contributions per year as small bars.
+  const perYear = new Map();
+  for (const d of days) perYear.set(d.date.slice(0, 4), (perYear.get(d.date.slice(0, 4)) ?? 0) + d.count);
+  const years = [...perYear.entries()];
+  const maxYear = Math.max(1, ...years.map(([, n]) => n));
+  const bw = Math.min(22, (col - 64 - (years.length - 1) * 6) / years.length);
+  const bars = years
+    .map(([y, n], k) => {
+      const h = Math.max(2, r1((n / maxYear) * 30));
+      const x = r1(x0(0) + k * (bw + 6));
+      const fill = k === years.length - 1 ? accent : theme.roofs[2];
+      return `<rect x="${x}" y="${150 - h}" width="${r1(bw)}" height="${h}" rx="2" fill="${fill}"><title>${y}: ${n.toLocaleString("en-US")}</title></rect>`;
+    })
+    .join("");
+  const yearLabels = `<text x="${x0(0)}" y="164" ${font} font-size="9" fill="#5b6570">${years[0][0]}</text><text x="${r1(x0(0) + years.length * (bw + 6) - 6)}" y="164" ${font} font-size="9" fill="#5b6570" text-anchor="end">${years.at(-1)[0]}</text>`;
+
+  // Column 2: the last 14 days, one square each, with the current streak outlined.
+  const recent = days.slice(-14);
+  const streakDates = new Set(current.length ? days.slice(days.findIndex((d) => d.date === current.from), days.findIndex((d) => d.date === current.to) + 1).map((d) => d.date) : []);
+  const squares = recent
+    .map((d, k) => {
+      const x = x0(1) + k * 15;
+      const ring = streakDates.has(d.date) ? ` stroke="${accent}" stroke-width="1"` : "";
+      return `<rect x="${x}" y="138" width="11" height="11" rx="2" fill="${theme.roofs[d.level]}"${ring}/>`;
+    })
+    .join("");
+
+  // Column 3: how close the current streak is to the record.
+  const barW = col - 64;
+  const progress = longest.length ? Math.min(1, current.length / longest.length) : 0;
+  const toBeat = longest.length - current.length + 1;
+  const progressNote = current.length >= longest.length && current.length > 0 ? "this is your record" : `${toBeat} more day${toBeat === 1 ? "" : "s"} to beat it`;
+
+  const label = (k, text) => `<text x="${x0(k)}" y="40" ${font} font-size="11" fill="#8b949e" letter-spacing=".5">${text}</text>`;
+  const big = (k, value, unit, fill) =>
+    `<text x="${x0(k)}" y="84" ${font} font-size="34" font-weight="700" fill="${fill}">${value}<tspan font-size="13" font-weight="400" fill="#8b949e" dx="6">${unit}</tspan></text>`;
+  const sub = (k, text) => `<text x="${x0(k)}" y="108" ${font} font-size="11" fill="#8b949e">${text}</text>`;
+  const live = current.length
+    ? `<circle cx="${x0(1) + 112}" cy="36" r="3" fill="${accent}"/><circle cx="${x0(1) + 112}" cy="36" r="3" fill="none" stroke="${accent}" class="p"/>`
+    : "";
+
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${SH}" width="${W}" height="${SH}" role="img" aria-label="${total} total contributions, current streak ${current.length} days, longest streak ${longest.length} days">
+<style>
+.p{animation:p 2s ease-out infinite;transform-origin:${x0(1) + 112}px 36px}
+@keyframes p{from{transform:scale(1);opacity:.9}to{transform:scale(3.2);opacity:0}}
+</style>
+<rect width="${W}" height="${SH}" rx="12" fill="${BG}"/>
+<path d="M${r1(col)} 28V148M${r1(col * 2)} 28V148" stroke="#1C2226"/>
+${label(0, "total contributions")}
+${big(0, total.toLocaleString("en-US"), "", "#f0f3f6")}
+${sub(0, `since ${fmtDate(joined, true)}`)}
+${bars}${yearLabels}
+${label(1, "current streak")}${live}
+${big(1, current.length, current.length === 1 ? "day" : "days", accent)}
+${sub(1, fmtRange(current.from, current.to, today))}
+${squares}
+${label(2, "longest streak")}
+${big(2, longest.length, longest.length === 1 ? "day" : "days", "#f0f3f6")}
+${sub(2, fmtRange(longest.from, longest.to, today))}
+<rect x="${x0(2)}" y="138" width="${r1(barW)}" height="6" rx="3" fill="#1c2226"/>
+<rect x="${x0(2)}" y="138" width="${r1(Math.max(6, barW * progress))}" height="6" rx="3" fill="${accent}"/>
+<text x="${x0(2)}" y="162" ${font} font-size="9" fill="#5b6570">${progressNote}</text>
+</svg>
+`;
+}
+
+const lastYear = await fetchCalendar(user);
+const today = lastYear.reduce((max, d) => (d.date > max ? d.date : max), "");
+const history = await fetchHistory(user, today);
+
 await mkdir(outDir, { recursive: true });
 for (const [name, theme] of Object.entries(THEMES)) {
-  const file = join(outDir, `city-${name}.svg`);
-  await writeFile(file, render(days, theme));
-  console.log(`wrote ${file}`);
+  for (const [kind, svg] of [["city", renderCity(lastYear, theme)], ["stats", renderStats(history, theme, today)]]) {
+    const file = join(outDir, `${kind}-${name}.svg`);
+    await writeFile(file, svg);
+    console.log(`wrote ${file}`);
+  }
 }

@@ -106,53 +106,10 @@ const shakur = {
 </div>
 
 <div align="center">
-  <img src="https://streak-stats.demolab.com?user=shakurShirajul&hide_border=true&background=0C1014&stroke=1C2226&ring=2AA889&fire=2AA889&currStreakLabel=2AA889&sideLabels=99D1CE&dates=99D1CE&sideNums=99D1CE&currStreakNum=99D1CE" alt="GitHub streak" />
+  <img src="https://raw.githubusercontent.com/shakurShirajul/shakurShirajul/output/stats-teal.svg" alt="Contribution stats: total contributions since joining, current streak and longest streak" width="98%" />
 </div>
 
 <!-- Activity graph service returns 402 (out of free hosting usage); restore if it comes back.
 <div align="center">
   <img src="https://github-readme-activity-graph.vercel.app/graph?username=shakurShirajul&hide_border=true&bg_color=0C1014&color=2AA889&line=2AA889&point=99D1CE&title_color=2AA889&area=true&area_color=2AA889" alt="Contribution activity graph" width="98%" />
 </div> -->
-
-<br />
-
-## 🏆 Featured Projects
-
-<table>
-  <tr>
-    <td width="33%" valign="top">
-      <h3 align="center">Craftopia</h3>
-      <p align="center">A platform for showcasing creative art and crafts, built to inspire creators.</p>
-      <p align="center">
-        <a href="https://github.com/shakurShirajul/craftopia-client">
-          <img src="https://img.shields.io/badge/Code-0C1014?style=flat-square&logo=github&logoColor=2AA889" alt="Craftopia code" />
-        </a>
-      </p>
-    </td>
-    <td width="33%" valign="top">
-      <h3 align="center">Textify</h3>
-      <p align="center">A dynamic blogging platform with an intuitive interface for writing and sharing.</p>
-      <p align="center">
-        <a href="https://github.com/shakurShirajul/textify-client">
-          <img src="https://img.shields.io/badge/Code-0C1014?style=flat-square&logo=github&logoColor=2AA889" alt="Textify code" />
-        </a>
-      </p>
-    </td>
-    <td width="33%" valign="top">
-      <h3 align="center">Urban Dwell</h3>
-      <p align="center">A building management system for exploring properties and managing agreements.</p>
-      <p align="center">
-        <a href="https://github.com/shakurShirajul/urban-dwell-client">
-          <img src="https://img.shields.io/badge/Code-0C1014?style=flat-square&logo=github&logoColor=2AA889" alt="Urban Dwell code" />
-        </a>
-      </p>
-    </td>
-  </tr>
-</table>
-
-<br />
-
-<p align="center">
-  <i>Thanks for stopping by — let's build something.</i>
-</p>
-

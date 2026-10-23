@@ -8,16 +8,16 @@ This is a GitHub profile README repository (`shakurShirajul/shakurShirajul`). `R
 
 ## Contribution city
 
-The one piece of code: `scripts/contribution-city.mjs` (plain Node, no dependencies) scrapes the public calendar at `github.com/users/<user>/contributions` and draws an isometric SVG with one building per day. Run it locally with `node scripts/contribution-city.mjs shakurShirajul <out-dir>`. `.github/workflows/contribution-city.yml` runs it daily and force-pushes the SVGs to the `output` branch, which the README loads through raw.githubusercontent.com. Never commit generated SVGs to `main`.
+The one piece of code: `scripts/contribution-city.mjs` (plain Node, no dependencies) scrapes the public calendar at `github.com/users/<user>/contributions` and draws an isometric SVG with one building per day, plus a matching stats card (total, current and longest streak) built from every year since the account was created. Run it locally with `node scripts/contribution-city.mjs shakurShirajul <out-dir>`. `.github/workflows/contribution-city.yml` runs it daily and force-pushes the SVGs to the `output` branch, which the README loads through raw.githubusercontent.com. Never commit generated SVGs to `main`.
 
 ## Constraints from GitHub's renderer
 
 - GitHub strips `<style>`, `style=` attributes, classes and scripts. Layout uses legacy HTML attributes only: `align`, `width`, `height`, `hspace`, `valign`, plus `<table>`, `<div align="center">` and `<br />`.
-- Everything dynamic (stats cards, streak, activity graph, badges) is an external image service configured through URL query parameters. Change their look by editing those parameters, not by adding local assets.
+- Everything dynamic (badges, skill icons, the commented-out activity graph) is an external image service configured through URL query parameters. Change their look by editing those parameters, not by adding local assets.
 
 ## Visual system
 
-Keep new elements consistent with the existing palette, which is repeated across the shields.io badges, streak-stats and activity-graph URLs:
+Keep new elements consistent with the existing palette, which is repeated across the shields.io badges, the activity-graph URL and the THEMES in the city script:
 
 - Background `0C1014`, accent `2AA889`, secondary text `99D1CE`, stroke `1C2226`
 - skillicons.dev uses `theme=dark`
