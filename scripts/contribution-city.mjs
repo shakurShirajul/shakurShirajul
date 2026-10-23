@@ -143,6 +143,7 @@ function render(days, theme) {
     const [gx0, gy0] = P(0, 0);
     if (y > gy0 + ((x - gx0) * TH) / TW - 40 && y < gy0 + ((x - gx0) * TH) / TW + 7 * 2 * TH + 40) continue;
     if (x < 470 && y < 70) continue;
+    if (x < 260 && y > H - 56) continue; // keep the legend clear
     const size = rand(`ss${k}`) < 0.15 ? 1.4 : 0.8;
     const twinkle = rand(`st${k}`) < 0.35 ? ` class="t" style="animation-delay:-${r1(rand(`sd${k}`) * 4)}s"` : "";
     stars.push(`<circle cx="${x}" cy="${y}" r="${size}" fill="#c9d1d9"${twinkle}/>`);
@@ -153,7 +154,7 @@ function render(days, theme) {
   const groundEdgeL = [P(-0.3, 7.3), P(weeks + 0.3, 7.3), P(weeks + 0.3, 7.3, -6), P(-0.3, 7.3, -6)];
 
   const legend = theme.roofs
-    .map((c, k) => `<rect x="${66 + k * 14}" y="${H - 34}" width="10" height="10" rx="2" fill="${c}"/>`)
+    .map((c, k) => `<rect x="${76 + k * 14}" y="${H - 34}" width="10" height="10" rx="2" fill="${c}"/>`)
     .join("");
 
   const font = `font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace"`;
@@ -177,7 +178,7 @@ ${poly(groundEdgeL, "#0a0d10")}${poly(groundEdgeR, "#070a0c")}${poly(ground, "#1
 ${ordered.map((d) => building(d, theme, maxCount)).join("\n")}
 <text x="32" y="${H - 25}" ${font} font-size="11" fill="#8b949e">quiet</text>
 ${legend}
-<text x="${66 + 5 * 14 + 4}" y="${H - 25}" ${font} font-size="11" fill="#8b949e">skyscraper</text>
+<text x="${76 + 5 * 14 + 6}" y="${H - 25}" ${font} font-size="11" fill="#8b949e">skyscraper</text>
 </svg>
 `;
 }

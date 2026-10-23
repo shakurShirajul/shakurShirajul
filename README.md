@@ -123,9 +123,10 @@ const shakur = {
   <img src="https://raw.githubusercontent.com/shakurShirajul/shakurShirajul/output/city-teal.svg" alt="Contribution city: each building is one day of GitHub contributions over the last year, taller for busier days" width="98%" />
 </div>
 
+<!-- Activity graph service returns 402 (out of free hosting usage); restore if it comes back.
 <div align="center">
   <img src="https://github-readme-activity-graph.vercel.app/graph?username=shakurShirajul&hide_border=true&bg_color=0C1014&color=2AA889&line=2AA889&point=99D1CE&title_color=2AA889&area=true&area_color=2AA889" alt="Contribution activity graph" width="98%" />
-</div>
+</div> -->
 
 <br />
 
