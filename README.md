@@ -101,26 +101,12 @@ const shakur = {
 ## 📊 GitHub Stats
 
 <div align="center">
-  <img src="https://github-profile-summary-cards.vercel.app/api/cards/profile-details?username=shakurShirajul&theme=gotham" alt="Profile details" width="98%" />
-</div>
-
-<div align="center">
-  <img src="https://github-profile-summary-cards.vercel.app/api/cards/repos-per-language?username=shakurShirajul&theme=gotham" alt="Top languages by repo" height="200" />
-  <img src="https://github-profile-summary-cards.vercel.app/api/cards/most-commit-language?username=shakurShirajul&theme=gotham" alt="Top languages by commit" height="200" />
-</div>
-
-<div align="center">
-  <img src="https://github-profile-summary-cards.vercel.app/api/cards/stats?username=shakurShirajul&theme=gotham" alt="GitHub stats" height="200" />
-  <img src="https://github-profile-summary-cards.vercel.app/api/cards/productive-time?username=shakurShirajul&theme=gotham&utcOffset=6" alt="Productive time" height="200" />
+  <!-- Built daily by .github/workflows/contribution-city.yml. Swap city-teal for city-green or city-blue to change the colours. -->
+  <img src="https://raw.githubusercontent.com/shakurShirajul/shakurShirajul/output/city-teal.svg" alt="Contribution city: each building is one day of GitHub contributions over the last year, taller for busier days" width="98%" />
 </div>
 
 <div align="center">
   <img src="https://streak-stats.demolab.com?user=shakurShirajul&hide_border=true&background=0C1014&stroke=1C2226&ring=2AA889&fire=2AA889&currStreakLabel=2AA889&sideLabels=99D1CE&dates=99D1CE&sideNums=99D1CE&currStreakNum=99D1CE" alt="GitHub streak" />
-</div>
-
-<div align="center">
-  <!-- Built daily by .github/workflows/contribution-city.yml. Swap city-teal for city-green or city-blue to change the colours. -->
-  <img src="https://raw.githubusercontent.com/shakurShirajul/shakurShirajul/output/city-teal.svg" alt="Contribution city: each building is one day of GitHub contributions over the last year, taller for busier days" width="98%" />
 </div>
 
 <!-- Activity graph service returns 402 (out of free hosting usage); restore if it comes back.

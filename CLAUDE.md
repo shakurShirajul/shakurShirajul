@@ -20,7 +20,7 @@ The one piece of code: `scripts/contribution-city.mjs` (plain Node, no dependenc
 Keep new elements consistent with the existing palette, which is repeated across the shields.io badges, streak-stats, activity-graph and capsule-render URLs:
 
 - Background `0C1014`, accent `2AA889`, secondary text `99D1CE`, stroke `1C2226`
-- github-profile-summary-cards use `theme=gotham`; skillicons.dev uses `theme=dark`
+- skillicons.dev uses `theme=dark`
 
 Tech-stack icons come from skillicons.dev. When a technology has no skillicons entry, a local tile goes in `images/logo/` that matches skillicons' look: a 256×256 rounded square filled with `#242938`, `rx=60`, with the logo inset. It is shown in the README at `width="48" height="48" hspace="4"` next to the skillicons image in the same row (see `zustand-tile.svg` and `coolify-tile.png`).
 
